@@ -7,6 +7,7 @@ These dotfiles include:
 - hyprland config with utility scripts
 - zshrc
 - gtk theme
+- kitty theme
 
 Apps use gruvbox themes, the desktop is pokemon themed, and hyprland is nicely integrated with the ags shell.
 
