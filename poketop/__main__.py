@@ -59,3 +59,13 @@ items = {
 # write items to the pokemon json file
 with open('pokemon.json', 'w') as pokemon_json:
     dump(items, pokemon_json, indent=4)
+
+conf_info = f"""
+$pokemon_name = {pokemon}
+$wallpaper_color = {hex_color}
+$wallpaper_path = $HOME/poketop/{wallpaper_path}
+"""
+
+# write items to the pokemon json file
+with open('pokemon.conf', 'w') as pokemon_conf:
+    pokemon_conf.writelines(conf_info)
