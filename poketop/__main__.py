@@ -2,7 +2,6 @@ from random import choice
 from PIL import Image
 from collections import Counter
 from json import dump
-from os import getenv
 from subprocess import run
 from argparse import ArgumentParser
 
@@ -22,39 +21,19 @@ parser.add_argument("-p", "--pokemon", help="name of pokemon", required=False)
 # call parse_args
 args = parser.parse_args()
 
+# check for argument
 if args.pokemon in pokemon_names:
+    # use argument as pokemon
     pokemon = args.pokemon
 else:
-    # pick a random pokemon from list
+    # pick a random pokemon from txt file
     pokemon = choice(pokemon_names)
 
 # path to wallpaper of chosen pokemon
 wallpaper_path = "poketop_wallpapers/" + pokemon + ".jpg"
 
-# grab username
-user = getenv('USER')
-
-# create config using template
-wpaperd_config = f'''
-[default]
-duration = "30m"
-mode = "center"
-sorting = "ascending"
-
-[DP-1]
-path = "/home/{user}/poketop/{wallpaper_path}"
-
-[HDMI-A-1]
-path = "/home/{user}/poketop/{wallpaper_path}"
-
-[default.transition.film-burn]
-'''
-# write the wpaperd config to the toml file
-with open('wpaperd_config.toml', 'w') as wpaperd_config_file:
-    wpaperd_config_file.writelines(wpaperd_config)
-
 # update wallpaper
-result = run(['wpaperctl', 'next-wallpaper'])
+result = run(['swww', 'img', '~/poketop/' + wallpaper_path])
 
 # Open wallpaper image
 img = Image.open(wallpaper_path)
