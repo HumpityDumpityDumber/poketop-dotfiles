@@ -33,7 +33,7 @@ else:
 wallpaper_path = "poketop_wallpapers/" + pokemon + ".jpg"
 
 # update wallpaper
-result = run(['swww', 'img', '~/poketop/' + wallpaper_path])
+result = run(['swww', 'img', '~/.poketop/' + wallpaper_path])
 
 # Open wallpaper image
 img = Image.open(wallpaper_path)
@@ -63,7 +63,7 @@ with open('pokemon.json', 'w') as pokemon_json:
 conf_info = f"""
 $pokemon_name = {pokemon}
 $wallpaper_color = {hex_color}
-$wallpaper_path = $HOME/poketop/{wallpaper_path}
+$wallpaper_path = $HOME/.poketop/{wallpaper_path}
 """
 
 # write items to the pokemon json file
