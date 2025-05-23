@@ -1,0 +1,13 @@
+
+[default]
+duration = "30m"
+mode = "center"
+sorting = "ascending"
+
+[DP-1]
+path = "/home/knee/poketop/poketop_wallpapers/abra.jpg"
+
+[HDMI-A-1]
+path = "/home/knee/poketop/poketop_wallpapers/abra.jpg"
+
+[default.transition.film-burn]

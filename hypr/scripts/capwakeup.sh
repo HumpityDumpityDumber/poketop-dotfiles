@@ -1,0 +1,1 @@
+timeout 2 ffplay -f video4linux2 /dev/video0
