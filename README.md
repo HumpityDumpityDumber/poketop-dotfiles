@@ -22,5 +22,5 @@ by default the dependencies are:
 - qalculate
 - pipewire
 - pavucontrol
-- wpaperd
+- swww
 - pokemon-colorscripts
