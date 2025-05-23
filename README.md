@@ -1,3 +1,5 @@
+> ⚠️ **Warning:** This project is still under development and the install script does not function.
+
 # PokeTop Hyprland Dotfiles
 
 These dotfiles include:
