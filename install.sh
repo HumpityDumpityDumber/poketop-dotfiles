@@ -161,7 +161,7 @@ NETWORKING=(
 
 # File & Disk Utilities
 FILE_DISK_UTILS=(
-    pcmanfm-qt ark cpio file-roller unzip zip 7zip unrar gnome-disk-utility baobab
+    pcmanfm ark cpio file-roller unzip zip 7zip unrar gnome-disk-utility baobab
 )
 
 # Auth & Portal
@@ -185,11 +185,6 @@ DEV_TOOLS=(
 
 AUR_DEV_TOOLS=(
     visual-studio-code-bin github-desktop
-)
-
-# Python Color Tools
-AUR_PYTHON_COLOR_TOOLS=(
-    python-haishoku python-screeninfo python-imageio python-materialyoucolor
 )
 
 # Office & Docs
@@ -284,7 +279,6 @@ ALL_AUR_GROUPS=(
     AUR_THEMES_FONTS
     AUR_IMAGE_GRAPHICS
     AUR_DEV_TOOLS
-    AUR_PYTHON_COLOR_TOOLS
     AUR_GUI_APPS
     AUR_MISC_TOOLS
 )
@@ -414,7 +408,7 @@ if ask_yes_no "Are you using a laptop?"; then
     mkdir -p ~/.config/systemd/user/batsignal.service.d
     printf '[Service]\nExecStart=\nExecStart=batsignal -d 5 -c 15 -w 30 -p' > ~/.config/systemd/user/batsignal.service.d/options.conf
 else
-    echo "Laptop installation skipped installation skipped."
+    echo "Laptop installation skipped."
 fi
 
 # Ask about AMD installation
@@ -440,9 +434,12 @@ if ask_yes_no "Would you like to download additional gaming packages?"; then
     # install and configure millenium
     if ask_yes_no "Would you like to patch Steam with Millenium?"; then
         echo "Patching Steam with Millenium..."
-        # add stuff here
+        sudo millenium patch
+        sudo chown "$USER:$USER" ~/.local/share/millennium
+        chmod -R u+rwX ~/.local/share/millennium
         echo "Installing SpaceTheme for Steam..."
-        # add more stuff here
+        mkdir -p ~/.steam/steam/steamui/skins/Steam
+        cp -r ./millenium-space-theme/* ~/.steam/steam/steamui/skins/Steam
     else
         echo "Skipping Millenium."
     fi
@@ -451,7 +448,36 @@ else
 fi
 
 if ask_yes_no "Would you like to download plover?"; then
-    # add stuff here
+    echo "Downloading Plover AppImage..."
+    mkdir -p ~/Applications
+    wget -O ~/Applications/plover.AppImage https://github.com/openstenoproject/plover/releases/latest/download/Plover-x86_64.AppImage
+    chmod +x ~/Applications/plover.AppImage
+
+    echo "Creating desktop entry for Plover..."
+    mkdir -p ~/.local/share/applications
+    cat > ~/.local/share/applications/plover.desktop <<EOL
+[Desktop Entry]
+Name=Plover
+Exec=$HOME/Applications/plover.AppImage
+Icon=plover
+Type=Application
+Categories=Utility;
+Comment=Open Steno Project Plover
+Terminal=false
+EOL
+
+    echo "Attempting to extract icon from AppImage..."
+    # Extract icon if possible
+    tmpdir=$(mktemp -d)
+    ~/Applications/plover.AppImage --appimage-extract > /dev/null 2>&1
+    if [ -f squashfs-root/usr/share/icons/hicolor/256x256/apps/plover.png ]; then
+        cp squashfs-root/usr/share/icons/hicolor/256x256/apps/plover.png ~/.local/share/icons/plover.png
+        sed -i "s|Icon=plover|Icon=$HOME/.local/share/icons/plover.png|" ~/.local/share/applications/plover.desktop
+    fi
+    rm -rf squashfs-root "$tmpdir"
+
+    update-desktop-database ~/.local/share/applications
+    echo "Plover AppImage installed and integrated."
 else
     echo "Not installing plover."
 fi
