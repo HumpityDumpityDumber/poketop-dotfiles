@@ -261,8 +261,10 @@ mkdir -p ~/.config/hypr
 cp -r ./config/hypr/* ~/.config/hypr/
 chmod +x ~/.config/hypr/scripts/*.sh
 chmod +x ~/.config/hypr/scripts/*.py
+
 # Send notification post install when restarting
 echo "exec-once = ~/.config/hypr/scripts/post_install_listener.sh" >> ~/.config/hypr/startup.conf
+
 # User icon
 ln -s -f ~/.config/hypr/profile-picture.png ~/.face.icon
 ln -s -f ~/.config/hypr/profile-picture.png ~/.face
@@ -284,23 +286,9 @@ cp -r ./config/nwg-look ~/.config/
 cp -r ./config/xsettingsd ~/.config/
 cp ./config/.gtkrc-2.0 ~/
 
-# Apply QT theme
-echo "Applying QT theme..."
-cp -r ./config/qt* ~/.config/
-cp -r ./config/Kvantum ~/.config/
-
-# Configure Wlogout
-echo "Configuring Wlogout..."
-cp -r ./config/wlogout ~/.config/
-
 # Enable auto-cpufreq
 echo "Enabling auto-cpufreq..."
 systemctl enable --now auto-cpufreq 
-
-# Copy wallpapers
-echo "Copying wallpapers..."
-mkdir -p ~/Pictures/Wallpapers ~/Pictures/Screenshots
-cp -r ./Wallpapers/* ~/Pictures/Wallpapers
 
 # Enable firewalld
 echo "Enabling firewalld..."

@@ -1,0 +1,62 @@
+.age_gate #app_agegate {
+    margin: 0;
+    width: auto;
+}
+
+.age_gate #app_agegate .main_content_ctn {
+    padding: 42px;
+    border: none;
+    border-radius: 8px;
+    background-color: rgba(var(--color-2), 50%);
+}
+
+
+
+/* Date Input */
+.age_gate #app_agegate .agegate_birthday_selector {
+    border-radius: 8px;
+    background-color: rgba(var(--color-1), 26%);
+}
+
+/* Text */
+.age_gate #app_agegate .agegate_birthday_desc {
+    padding-bottom: 6px;
+}
+
+/* Select */
+.age_gate #app_agegate .agegate_birthday_selector select {
+    height: unset;
+    margin: 0 3px;
+    padding: 6px;
+    outline: none;
+    border-radius: 8px;
+    color: rgb(var(--accent-1));
+    background-color: rgba(var(--color-1), 26%);
+}
+
+
+
+/* Buttons */
+.age_gate #app_agegate .agegate_text_container.btns {
+    height: unset;
+    margin: 12px auto 0;
+}
+
+
+
+/* Image */
+.age_gate #app_agegate .img_ctn {
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    filter: blur(60px) brightness(0.6);
+}
+
+.age_gate #app_agegate .img_ctn img {
+    width: 100%;
+    height: 100%;
+}

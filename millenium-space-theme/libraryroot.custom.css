@@ -1,0 +1,35 @@
+@import url("./src/css/regular.css");
+@import url("./src/css/steam/titlebar.css");
+@import url("./src/css/steam/sidebar.css");
+@import url("./src/css/steam/libHome.css");
+@import url("./src/css/steam/gamepage.css");
+@import url("./src/css/steam/downloadPage.css");
+@import url("./src/css/steam/newsModal.css");
+@import url("./src/css/steam/achievementsModal.css");
+
+
+/* Base */
+._1ENHEsrSLcTRtPQFl1F-wL {
+    border: none;
+    background-color: rgb(var(--background)) !important;
+}
+._1rDh5rXSFZJOqCa4UpnI4z {
+    margin: 0 16px 16px;
+    border-radius: 8px;
+}
+
+
+
+
+
+/*! Remove after experiment is live */
+/*downloadbar*/
+._1_yS5UP7el0aN4vntx3dx {
+    margin: 0 16px 16px;
+}
+
+._3vCzSrrXZzZjVJFZNg9SGu {
+    border-radius: 8px;
+    background-color: rgb(var(--color-2));
+    box-shadow: none;
+}
