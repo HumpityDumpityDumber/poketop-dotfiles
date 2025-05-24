@@ -3,11 +3,11 @@
 # Function to ask yes or no questions
 ask_yes_no() {
     while true; do
-        read -p "$1 (Yy/Nn): " response
-        case $response in
-            [Yy]* ) return 0;;
-            [Nn]* ) return 1;;
-            * ) echo "Please answer with y or n.";;
+        read -p "$1 (Yy/Nn) [Y]: " response
+        case "$response" in
+            [Yy]* | "" ) return 0 ;;   # empty input defaults to yes
+            [Nn]* ) return 1 ;;
+            * ) echo "Please answer with y or n." ;;
         esac
     done
 }
@@ -115,38 +115,39 @@ PACKAGES=(
     xdg-desktop-portal-hyprland pacman-contrib btop nwg-look qt5ct qt6ct
     papirus-icon-theme kvantum sddm brightnessctl pamixer playerctl
     xdg-user-dirs sound-theme-freedesktop yad jq vlc gwenview tumbler
-    ffmpegthumbnailer polkit-gnome udiskie grim socat wireplumber
+    ffmpegthumbnailer polkit-gnome grim socat wireplumber
     networkmanager pipewire-alsa pipewire-audio pipewire-jack pipewire-pulse
     gst-plugin-pipewire slurp noto-fonts-emoji firewalld
     waybar xdg-desktop-portal-gtk bluez bluez-utils blueman
     network-manager-applet pavucontrol ttf-meslo-nerd gnome-keyring kooha
-    kvantum-qt5 gnome-disk-utility firefox swaync hyprlock hypridle
+    kvantum-qt5 gnome-disk-utility hyprlock hypridle
     python-pipx pcmanfm-qt ark cpio meson cmake hyprwayland-scanner man
-    libreoffice-fresh evince gnome-clocks 7zip unrar swww imagemagick
+    libreoffice-fresh evince gnome-clocks 7zip unrar file-roller swww imagemagick
     gstreamer gst-plugins-bad gst-plugins-base gst-plugins-good
     gst-plugins-ugly pkgconf vim fzf reflector zoxide wget
     zenity baobab gnome-font-viewer unzip ttf-ubuntu-font-family
     python-pillow python-scikit-learn python-numpy curl
     qt6-5compat qt6-declarative qt6-svg openrgb bc wlr-randr
     adw-gtk-theme libadwaita wl-clip-persist zip
-    nwg-displays gdb refind
+    nwg-displays gdb
     qt6-virtualkeyboard qt6-multimedia-ffmpeg
 )
 
 # AUR packages to install
 YAY_PACKAGES=(
-    bibata-cursor-theme visual-studio-code-bin gapless hardcode-fixer-git
-    wlogout github-desktop auto-cpufreq
+    bibata-cursor-theme visual-studio-code-bin 
+    floorp-bin gapless hardcode-fixer-git 
+    github-desktop auto-cpufreq
     hyprpicker grimblast-git aurutils arch-update 
     python-pywal16 smile clipse swayosd-git waypaper
     ttf-meslo-nerd-font-powerlevel10k python-haishoku dopamine-appimage-preview
-    python-screeninfo python-imageio ulauncher-git matugen-bin
+    python-screeninfo python-imageio
     python-materialyoucolor xwaylandvideobridge pinta
 )
 
 # Gaming packages to install
 GAMING_PACKAGES=(
-    steam lutris wine-staging winetricks gamemode lib32-gamemode
+    steam wine-staging winetricks gamemode lib32-gamemode
     giflib lib32-giflib libpng lib32-libpng libldap lib32-libldap
     gnutls lib32-gnutls mpg123 lib32-mpg123 openal lib32-openal
     v4l-utils lib32-v4l-utils libpulse lib32-libpulse libgpg-error lib32-libgpg-error
@@ -160,10 +161,10 @@ GAMING_PACKAGES=(
 
 # AUR gaming packages to install
 GAMING_PACKAGES_YAY=(
-    vkbasalt lib32-vkbasalt proton-ge-custom dxvk-bin vesktop protontricks
+    vkbasalt lib32-vkbasalt dxvk-bin protontricks
 )
 
-echo "Installing Reyshyram's dotfiles..."
+echo "Installing poketop dotfiles..."
 
 # Enhance git
 echo "Enhancing git..."
@@ -171,7 +172,8 @@ git config --global http.postBuffer 157286400
 
 # Enhance pacman
 echo "Configuring pacman..."
-sudo sed -i 's/^#Color/Color/; s/^#VerbosePkgLists/VerbosePkgLists/; s/^#ParallelDownloads = 5/ParallelDownloads = 5/' /etc/pacman.conf
+sudo sed -i 's/^#Color/Color/; s/^#VerbosePkgLists/VerbosePkgLists/; s/^#ParallelDownloads = 5/ParallelDownloads = 5/' /etc/pacman.conf && \
+sudo sed -i '/^\[options\]/a ILoveCandy' /etc/pacman.conf
 enable_multilib
 
 # Install yay
@@ -209,9 +211,9 @@ echo "SDDM service enabled."
 # Configure Kitty
 echo "Configuring Kitty..."
 mkdir -p ~/.config/kitty
-cp -r ./config/kitty/* ~/.config/kitty
+cp -r ./kitty/* ~/.config/kitty
 mkdir -p ~/.local/bin
-cp ./config/xdg-terminal-exec ~/.local/bin/xdg-terminal-exec
+cp ./xdg-terminal-exec ~/.local/bin/xdg-terminal-exec
 chmod +x ~/.local/bin/xdg-terminal-exec
 
 # Configure Zsh
@@ -224,7 +226,7 @@ cp ./.zprofile ~/.zprofile
 # Configure Micro theme
 echo "Configuring Micro theme..."
 mkdir -p ~/.config/micro/
-cp -r ./config/micro/* ~/.config/micro/
+cp -r ./micro/* ~/.config/micro/
 
 # Configure Plymouth
 echo "Configuring Plymouth..."
@@ -233,34 +235,11 @@ sudo sed -i '/^HOOKS=/ s/)$/ plymouth)/' /etc/mkinitcpio.conf
 sudo cp -r ./config/plymouth/black_hud /usr/share/plymouth/themes/
 sudo plymouth-set-default-theme -R black_hud
 
-# Configure Btop
-echo "Configuring Btop..."
-mkdir -p ~/.config/btop/
-cp -r ./config/btop/* ~/.config/btop/
-
-# Configure Swaync
-echo "Configuring Swaync..."
-mkdir -p ~/.config/swaync
-cp -r ./config/swaync/* ~/.config/swaync/
-sed -i "s|/home/reyshyram|$HOME|g" ~/.config/swaync/config.json
-chmod +x ~/.config/swaync/notification-controller.sh
-
-# Enable SwayOSD backend
-echo "Enabling SwayOSD backend..."
-sudo systemctl enable --now swayosd-libinput-backend.service
-
-# Configure SwayOSD
-echo "Configuring SwayOSD..."
-mkdir -p ~/.config/swayosd
-cp -r ./config/swayosd/* ~/.config/swayosd/
-
-
 # Configure Hyprland
 echo "Configuring Hyprland..."
 mkdir -p ~/.config/hypr
-cp -r ./config/hypr/* ~/.config/hypr/
+cp -r ./hypr/* ~/.config/hypr/
 chmod +x ~/.config/hypr/scripts/*.sh
-chmod +x ~/.config/hypr/scripts/*.py
 
 # Send notification post install when restarting
 echo "exec-once = ~/.config/hypr/scripts/post_install_listener.sh" >> ~/.config/hypr/startup.conf
@@ -269,9 +248,15 @@ echo "exec-once = ~/.config/hypr/scripts/post_install_listener.sh" >> ~/.config/
 ln -s -f ~/.config/hypr/profile-picture.png ~/.face.icon
 ln -s -f ~/.config/hypr/profile-picture.png ~/.face
 
+# Configure poketop
+echo "Configuring Poketop..."
+mkdir -p ~/.poketop
+cp -r ./.poketop/* ~/.poketop
+chmod +x ~/.poketop/__main__.py
+
 # Set application associations
-xdg-settings set default-web-browser firefox.desktop
-xdg-mime default pcmanfm-qt.desktop inode/directory
+xdg-settings set default-web-browser floorp.desktop
+xdg-mime default pcmanfm.desktop inode/directory
 
 # Apply Papirus icon theme
 echo "Applying icon theme..."
@@ -344,12 +329,28 @@ if ask_yes_no "Would you like to download additional gaming packages?"; then
     echo "Downloading gaming packages..."
     sudo pacman -S --needed "${GAMING_PACKAGES[@]}"
     yay -S --needed "${GAMING_PACKAGES_YAY[@]}"
+
+    # install and configure millenium
+    if ask_yes_no "Would you like to patch Steam with Millenium?"; then
+        echo "Patching Steam with Millenium..."
+        # add stuff here
+        echo "Installing SpaceTheme for Steam..."
+        # add more stuff here
+    else
+        echo "Skipping Millenium."
+    fi
 else
     echo "Skipping gaming packages."
 fi
 
+if ask_yes_no "Would you like to download plover?"; then
+    # add stuff here
+else
+    echo "Not installing plover."
+fi
+
 # Ask about restart
-if ask_yes_no "Dotfiles successfully installed. Do you want to restart now?"; then
+if ask_yes_no "Dotfiles successfully installed. Do you want to restart now? (recommended)"; then
     sudo reboot now
 else
     echo "Not restarting. Please restart in order to use the dotfiles."
