@@ -16,12 +16,7 @@ zshrc shows current pokemon along with having nice autofill features.
 install script also has the option to also install all of my prefered applications in addition to the packages required by the dotfiles.
 
 by default the dependencies are:
-- grimblast
-- hyprpicker
-- hypridle
 - wtype
 - qalculate
-- pipewire
 - pavucontrol
 - swww
-- pokemon-colorscripts
