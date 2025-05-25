@@ -203,7 +203,7 @@ AUR_GUI_APPS=(
 
 # Misc Tools
 MISC_TOOLS=(
-    brightnessctl xdg-user-dirs fastfetch jq curl bc
+    brightnessctl xdg-user-dirs fastfetch jq curl bc cava
 )
 
 AUR_MISC_TOOLS=(
